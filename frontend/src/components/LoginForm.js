@@ -7,6 +7,7 @@ function LoginForm() {
 
     const [username, setUserName] = useState('');
     const [email, setEmail] = useState('');
+    const [userlastname, setUserLastName] = useState('')
 
     const navigate = useNavigate()
 
@@ -15,48 +16,63 @@ function LoginForm() {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-
-        dispatch(saveUser({
+        const userData = {
             username: username,
+            userlastname: userlastname,
             email: email
-        }))
+        }
+
+        dispatch(saveUser(userData))
+
+        localStorage.setItem('user', JSON.stringify(userData))
 
         navigate('/dashboard')
     }
 
     return (
-        <div className='min-h-screen bg-gradient-to-tr from-green-500 to-cyan-500'>
-            <h1>Login Form</h1>
-            <div className='flex justify-center p-8 m-auto'>
-                <div className=' w-1/2 h-full flex justify-center items-center bg-slate-400 rounded-xl shadow-xl'>
-                    <div className=''>
-                        <form onSubmit={handleSubmit} className='p-4'>
-                            <div>
-                                <label className='text-lg font-semibold p-2'>User Name:</label>
-                                <input
-                                    type='text'
-                                    placeholder='Enter username'
-                                    required
-                                    onChange={(e) => setUserName(e.target.value)}
-                                    className='w-60 h-10 p-3 border border-black rounded-lg text-black'
-                                />
-                            </div>
-                            <div>
-                                <label className='text-lg font-semibold p-2'>Email:</label>
-                                <input
-                                    type='email'
-                                    placeholder='Enter email'
-                                    required
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className='w-60 h-10 p-3 border border-black rounded-lg text-black'
-                                />
-                            </div>
-                            <button type='submit'
-                                className='w-60 h-14 rounded-lg text-center text-xl bg-blue-500 text-white'
-                            >Submit</button>
-                        </form>
+        <div className='min-h-screen flex items-center justify-center bg-gradient-to-tr from-green-500 to-cyan-500'>
+            <div className='bg-slate-300 p-8 rounded-xl shadow-md w-full max-w-md'>
+
+                <h1 className='text-3xl font-bold text-center mb-6'>Login Form</h1>
+
+                <form onSubmit={handleSubmit} className='space-y-6'>
+                    <div>
+                        <label htmlFor='username' className='block text-lg font-semibold mb-2'>User Name</label>
+                        <input
+                            type='text'
+                            placeholder='Enter username'
+                            value={username}
+                            required
+                            onChange={(e) => setUserName(e.target.value)}
+                            className='w-full px-4 py-2 border border-black rounded-lg text-black focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition'
+                        />
                     </div>
-                </div>
+                    <div>
+                        <label htmlFor='userlastname' className='block mb-2 text-lg font-semibold p-2'>User Last Name:</label>
+                        <input
+                            type='text'
+                            placeholder='Enter user last name'
+                            value={userlastname}
+                            required
+                            onChange={(e) => setUserLastName(e.target.value)}
+                            className='w-full px-4 py-2 border border-black rounded-lg text-black focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition'
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor='email' className='block mb-2 text-lg font-semibold p-2'>Email:</label>
+                        <input
+                            type='email'
+                            placeholder='Enter email'
+                            value={email}
+                            required
+                            onChange={(e) => setEmail(e.target.value)}
+                            className='w-full px-4 py-2 border border-black rounded-lg text-black focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition'
+                        />
+                    </div>
+                    <button type='submit'
+                        className='w-full py-2 px-4 rounded-lg text-center text-xl bg-blue-500 text-white focus:ring-blue-500 focus:border-transparent outline-none transition'
+                    >Submit</button>
+                </form>
             </div>
         </div>
     )
